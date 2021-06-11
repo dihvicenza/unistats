@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="myChart" width="100%"></canvas>
+    <script>
+      const materialDesignColors = [
+        "rgba(156, 39, 176, 0.5)",
+        "rgba(63, 81, 181, 0.5)",
+        "rgba(3, 169, 244, 0.5)",
+        "rgba(76, 175, 80, 0.5)",
+        "rgba(255, 235, 59, 0.5)",
+        "rgba(255, 152, 0, 0.5)",
+        "rgba(244, 67, 54, 0.5)",
+      ];
+      function generateGraph(labels, datas, colors) {
+        var ctx = jQuery("#myChart");
+        var myChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                data: datas,
+                backgroundColor: colors,
+                borderColor: ["rgba(100, 100, 100, 1)"],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            indexAxis: "y",
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 1,
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                  },
+                },
+              ],
+            },
+            plugins: {
+              title: {
+                display: true,
+                text: "Paghe medie orarie divise per livello di istruzione, città   ",
+              },
+              legend: {
+                display: false,
+              },
+            },
+          },
+        });
+      }
+      var labList = [];
+      var datList = [];
+      var colList = [];
+      jQuery.ajax({
+        async: false,
+        type: "POST",
+        url: "",
+        data: JSON.parse('{"data":"retribuzioneMedia"}'), //qui ci va il dato rillevante per quel grafico
+        dataType: "json",
+        success: function (data) {
+          index = 0;
+          for (const [key, value] of Object.entries(data)) {
+            var color = materialDesignColors[index];
+            for (i = 0; i < 3; ++i) {
+              label = key;
+              values = value;
+              var valueSplit = value[i].toString().split(";");
+              label += " - ";
+              switch (valueSplit[0]) {
+                case "laurea e post-laurea":
+                  label += "Laureati";
+                  break;
+                case "diploma":
+                  label += "Diplomati";
+                  break;
+                case "nessuno":
+                  label += "Terza Media";
+                  break;
+              }
+              datList.push(parseFloat(valueSplit[1]));
+              labList.push(label);
+              colList.push(color);
+            }
+            datList.push(0);
+            labList.push("");
+            colList.push("#000000");
+            index++;
+          }
+        },
+      });
+
+      generateGraph(labList, datList, colList);
+    </script>
+  </body>
+</html>

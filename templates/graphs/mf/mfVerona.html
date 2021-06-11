@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="myChart" width="100%"></canvas>
+
+    <script>
+      const materialDesignColors = [
+        "rgba(92, 107, 192, 0.7)",
+        "rgba(236, 64, 122, 0.7)",
+      ];
+      function generateGraph(labels, datas, colors) {
+        var ctx = jQuery("#myChart");
+
+        // Mettere labels
+        var labels = labels;
+
+        var datas = {
+          labels: labels,
+          datasets: [
+            {
+              backgroundColor: colors,
+              borderColor: "rgba(100, 100, 100, 1)",
+              //Mettere data qui
+              data: datas,
+            },
+          ],
+        };
+
+        // Configurare le opzioni
+        var option = {
+          responsive: true,
+          mantainAspectRatio: false,
+          aspectRatio: 1,
+          cutoutPercentage: 1000,
+          animation: {
+            animateScale: true,
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: "Iscritti all'Università di Verona, divisi per sesso",
+            },
+            legend: {
+              display: true,
+            },
+          },
+        };
+
+        var config = {
+          type: "doughnut",
+          data: datas,
+          options: option,
+        };
+
+        var myChart = new Chart(ctx, config);
+      }
+      var labList = ["Maschi", "Femmine"];
+      var datList = [];
+      jQuery.ajax({
+        async: false,
+        type: "POST",
+        url: "",
+        data: JSON.parse('{"data":"iscrittiAteneo"}'), //qui ci va il dato rillevante per quel grafico
+        dataType: "json",
+        success: function (data) {
+          values = data["Verona"][0];
+          values = values.split(";");
+          datList.push(parseInt(values[1]));
+          datList.push(parseInt(values[2]));
+
+          studTot = datList[0] + datList[1];
+          perMasc = Math.round((datList[0] * 100) / studTot);
+          perFem = Math.round((datList[1] * 100) / studTot);
+
+          labList[0] = labList[0] + " " + perMasc.toString() + "%";
+          labList[1] = labList[1] + " " + perFem.toString() + "%";
+        },
+      });
+      generateGraph(labList, datList, materialDesignColors);
+    </script>
+  </body>
+</html>

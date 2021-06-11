@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="myChart" width="100%"></canvas>
+    <script>
+      const materialDesignColors = [
+        "rgba(156, 39, 176, 0.5)",
+        "rgba(63, 81, 181, 0.5)",
+        "rgba(3, 169, 244, 0.5)",
+        "rgba(76, 175, 80, 0.5)",
+        "rgba(255, 235, 59, 0.5)",
+        "rgba(255, 152, 0, 0.5)",
+        "rgba(244, 67, 54, 0.5)",
+      ];
+      function generateGraph(labels, datas, colors) {
+        var ctx = jQuery("#myChart");
+
+        // Mettere labels
+        var label = labels;
+
+        var datas = {
+          labels: label,
+          datasets: [
+            {
+              backgroundColor: colors,
+
+              //Mettere data qui
+              data: datas,
+            },
+          ],
+        };
+
+        // Configurare le opzioni
+        var option = {
+          responsive: true,
+          mantainAspectRatio: false,
+          aspectRatio: 1,
+          animation: {
+            animateScale: true,
+          },
+          plugins: {
+            legend: {
+              position: "top",
+            },
+            title: {
+              display: true,
+              text: "Numero di studenti universitari emigrati in altre regioni dalla provincia di Belluno",
+            },
+          },
+        };
+
+        var config = {
+          type: "polarArea",
+          data: datas,
+          options: option,
+        };
+
+        var myChart = new Chart(ctx, config);
+      }
+
+      var labList = [];
+      var datList = [];
+      var colList = [];
+      jQuery.ajax({
+        async: false,
+        type: "POST",
+        url: "",
+        data: JSON.parse('{"data":"iscrittiEmig"}'), //qui ci va il dato rillevante per quel grafico
+        dataType: "json",
+        success: function (data) {
+          index = materialDesignColors.length - 1;
+          values = data["belluno"];
+          for (i = 0; i < values.length; i++) {
+            var color = materialDesignColors[index];
+            var valueSplit = values[i].toString().split(";");
+            label = valueSplit[1];
+            if (
+              valueSplit[0] == "2012/2013" &&
+              label != "Veneto" &&
+              valueSplit[2] > 100
+            ) {
+              datList.push(valueSplit[2]);
+              labList.push(label);
+              colList.push(color);
+              index--;
+              if (index < 0) {
+                index = materialDesignColors.length - 1;
+              }
+            }
+          }
+        },
+      });
+      generateGraph(labList, datList, colList);
+    </script>
+  </body>
+</html>
