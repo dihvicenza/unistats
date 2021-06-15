@@ -1,8 +1,7 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, make_response
 import requests
 
 import json
-import os
 from os import path
 
 import csv
@@ -13,7 +12,7 @@ application = Flask(__name__)
 
 @application.route("/")  # Index
 def index():
-    return "<h1> 204 No Content"
+    return make_response(render_template("index.html"))
 
 
 @application.route("/getGraph", methods=["POST", "GET"])
@@ -34,79 +33,65 @@ def getgraph():
 
             # HBar Graph per la paga oraria provinciale a seconda del livello di istruzione
             if(request.args['graph'] == "pagaOra"):
-                return render_template("graphs/pagaOra.html")
+                return make_response(render_template("graphs/pagaOra.html"))
 
             # Line Graph per gli iscritti alle università nel veneto per anno
             elif(request.args['graph'] == "iscrittiAtn"):
-                return render_template("graphs/iscrittiAtn.html")
+                return make_response(render_template("graphs/iscrittiAtn.html"))
 
             elif(request.args['graph'] == "disoccupati"):
-                return render_template("graphs/disoccupatiGraph.html")
-            
+                return make_response(render_template("graphs/disoccupatiGraph.html"))
+
             elif(request.args['graph'] == "iscrittiProv"):
-                return render_template("graphs/iscrittiProv.html")
+                return make_response(render_template("graphs/iscrittiProv.html"))
 
             # Donut Graph per la distribuzione di m/f nelle università in veneto
             elif(request.args['graph'] == "mf" and 'atn' in request.args):
                 dir = "graphs/mf/mf" + request.args['atn'] + ".html"
+                print(dir)
                 if(path.exists("templates/" + dir)):
-                    return render_template(dir)
+                    return make_response(render_template(dir))
 
             # Polar Area Graph per gli studenti emigrati in altre regioni
             elif(request.args['graph'] == "emig" and "prov" in request.args):
                 dir = "graphs/emig/iscrittiEmig" + \
                     request.args['prov'] + ".html"
                 if(path.exists("templates/" + dir)):
-                    return render_template(dir)
+                    return make_response(render_template(dir))
 
     return "<h1>400 BAD REQUEST"
 
-##########################
-#REMOVE BEFORE PUBLISHING#
-##########################
-#                        #
-
-
-@application.route("/graph")
-def graph():
-    return render_template("graph.html")
-
-#                        #
-##########################
-
 # Aggiornamento dati alla mezzanotte di ogni lunedi
+
 
 @application.route("/doUpdate")
 def updateData():
     # File iscritti per ateneo
-    iscritti = requests.get(
-        'http://dati.ustat.miur.it/dataset/3dd9ca7f-9cc9-4a1a-915c-e569b181dbd5/resource/32d26e28-a0b5-45f3-9152-6072164f3e63/download/iscrittixateneo.csv', allow_redirects=True)
-    open('static/newIscrittiAteneo.csv', 'wb').write(iscritti.content)
-    if path.exists('static/iscrittiAteneo.csv') and open('static/newIscrittiAteneo.csv', 'r').read() == open('static/iscrittiAteneo.csv', 'r').read():
-        os.remove('static/newIscrittiAteneo.csv')
-    else:
-        if path.exists('static/iscrittiAteneo.csv'):
-            os.remove('static/iscrittiAteneo.csv')
-        os.rename('static/newIscrittiAteneo.csv', 'static/iscrittiAteneo.csv')
-        with open('static/iscrittiAteneo.csv', newline='') as f:
-            reader = csv.reader(f)
-            data = list(reader)[1:]
-            iscrittiAteneo = {
-                'Venezia CF': [],
-                'Verona': [],
-                'Venezia BA': [],
-                'Padova': []}
+    # Per qualche motivo, questo SPECIFICO file causa un errore 502 Bad Gateway.
+    # Più sotto ci sono le stesse identiche funzioni su un file diverso e funziona
+    # Quindi il file sarà statico
+    # iscritti = requests.get(
+    #    'http://dati.ustat.miur.it/dataset/3dd9ca7f-9cc9-4a1a-915c-e569b181dbd5/resource/32d26e28-a0b5-45f3-9152-6072164f3e63/download/iscrittixateneo.csv', allow_redirects=True)
+    #open('static/iscrittiAteneo.csv', 'wb').write(iscritti.content)
+    with open('static/notUpdating/iscrittiAteneo.csv', newline='') as f:
+        reader = csv.reader(f)
+        data = list(reader)[1:]
+        iscrittiAteneo = {
+            'Venezia CF': [],
+            'Verona': [],
+            'Venezia BA': [],
+            'Padova': []}
 
-            for row in data:
-                row = row[0].split(';')
-                if row[1] == 'Padova' or 'Venezia C' in row[1] or row[1] == 'Venezia Iuav' or row[1] == 'Verona':
-                    tmp = row[1]
-                    if 'Venezia C' in row[1]:
-                        tmp = 'Venezia CF'
-                    if tmp == 'Venezia Iuav':
-                        tmp = 'Venezia BA'
-                    iscrittiAteneo[tmp].append(
-                        row[0] + ';' + row[3] + ';' + row[4])
+        for row in data:
+            row = row[0].split(';')
+            if row[1] == 'Padova' or 'Venezia C' in row[1] or row[1] == 'Venezia Iuav' or row[1] == 'Verona':
+                tmp = row[1]
+                if 'Venezia C' in row[1]:
+                    tmp = 'Venezia CF'
+                if tmp == 'Venezia Iuav':
+                    tmp = 'Venezia BA'
+                iscrittiAteneo[tmp].append(
+                    row[0] + ';' + row[3] + ';' + row[4])
 
         iscrittiAteneoJson = json.dumps(iscrittiAteneo)
         # Formato: {"nomeAteneo" : ["annoScolastico;numeroIscrittiMaschi;numeroIscrittiFemmine",...,...],...,...}
@@ -160,7 +145,6 @@ def updateData():
     # Formato: {"cittàInMinuscolo" : ["annoScolastico;CittàDiProvenienzaInMaiuscolo;RegioneDiEsodo;NumeroStudenti",...,...],...,...}
     open('static/jsons/iscrittiEmig.json',
          "wb").write(iscrittiEmigJson.encode())
-
     # File reddito medio orario
     with open('static/notUpdating/retribuzioneMedia.csv', newline='') as f:
         reader = csv.reader(f)
@@ -242,8 +226,9 @@ def updateData():
                 iscrittiProvincia[row[2].lower()].append(
                     str(row[0]) + ';' + str(int(row[3])+int(row[4])))
         iscrittiProvinciaJson = json.dumps(iscrittiProvincia)
-        #Formato: {"nomeCittà" : ["anno;numero"],...,...}
-        open('static/jsons/iscrittiProvincia.json', "wb").write(iscrittiProvinciaJson.encode())
+        # Formato: {"nomeCittà" : ["anno;numero"],...,...}
+        open('static/jsons/iscrittiProvincia.json',
+             "wb").write(iscrittiProvinciaJson.encode())
     return "200"
 
 #########
@@ -252,11 +237,7 @@ def updateData():
 
 # Forcing Update of files on application startup
 
-if path.exists('static/iscrittiAteneo.csv'):
-    os.remove('static/iscrittiAteneo.csv')
 
-if path.exists('static/iscrittiProvincia.json'):
-    os.remove('static/iscrittiProvincia.json')
 updateData()
 
 if __name__ == '__main__':

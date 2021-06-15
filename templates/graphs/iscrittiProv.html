@@ -14,18 +14,39 @@
     <title>Document</title>
   </head>
   <body>
+    <div id="click">
     <canvas id="myChart" width="100%"></canvas>
+    </div>
     <script>
       const materialDesignColors = [
-        "rgba(156, 39, 176, 0.5)",
-        "rgba(63, 81, 181, 0.5)",
-        "rgba(3, 169, 244, 0.5)",
-        "rgba(76, 175, 80, 0.5)",
-        "rgba(255, 235, 59, 0.5)",
-        "rgba(255, 152, 0, 0.5)",
-        "rgba(244, 67, 54, 0.5)",
+        "rgba(156, 39, 176, 1)",
+        "rgba(63, 81, 181, 1)",
+        "rgba(3, 169, 244, 1)",
+        "rgba(76, 175, 80, 1)",
+        "rgba(255, 235, 59, 1)",
+        "rgba(255, 152, 0, 1)",
+        "rgba(244, 67, 54, 1)",
       ];
-      function generateGraph(labels, datas, datas1, datas2, datas3, datas4,  datas5,  datas6,  colors) {
+
+      function inIframe () {
+        try {
+          return window.self !== window.top;
+        } catch (e) {
+          return true;
+        }
+      }
+
+      function generateGraph(
+        labels,
+        datas,
+        datas1,
+        datas2,
+        datas3,
+        datas4,
+        datas5,
+        datas6,
+        colors,
+      ) {
         var ctx = jQuery("#myChart");
         // Mettere labels
         var label = labels;
@@ -53,6 +74,7 @@
               label: "Rovigo",
               backgroundColor: colors[2],
               borderColor: colors[2],
+
               //Mettere data qui
               data: datas2,
             },
@@ -84,6 +106,7 @@
               label: "Vicenza",
               backgroundColor: colors[6],
               borderColor: colors[6],
+
               //Mettere data qui
               data: datas6,
             },
@@ -96,10 +119,11 @@
           plugins: {
             legend: {
               position: "top",
+              onClick: (e) => e.stopPropagation()
             },
             title: {
               display: true,
-              text: "Chart.js Line Chart",
+              text: "Iscritti ad una qualunque università per Provincia in Veneto, per anno",
             },
           },
         };
@@ -111,6 +135,13 @@
         };
 
         var myChart = new Chart(ctx, config);
+
+        $("#click").click(function(e){
+          if(inIframe()){
+            window.open('http://unistat-env.eba-69ama42g.eu-south-1.elasticbeanstalk.com/getGraph?graph=iscrittiProv', "_blank");
+          }
+        });
+
       }
 
       var labList = [];
@@ -119,7 +150,7 @@
       var datList2 = [];
       var datList3 = [];
       var datList4 = [];
-      var datList5= [];
+      var datList5 = [];
       var datList6 = [];
       var colList = [];
       jQuery.ajax({
@@ -132,7 +163,7 @@
           console.log(data);
           index = 0;
           tmplist = [];
-          var color = '';
+          var color = "";
           for (i = 0; i < 11; i++) {
             for (const [key, value] of Object.entries(data)) {
               values = data[key];
@@ -145,36 +176,35 @@
           }
         },
       });
-      console.log(tmplist)
-      for (i=0; i<tmplist.length; i++){
-        switch (i%7) {
-                case 0:
-                    datList.push(tmplist[i]);
-                    break;
-                case 1:
-                    datList1.push(tmplist[i]);
-                    break;
-                case 2:
-                    datList2.push(tmplist[i]);
-                    break;
-                case 3:
-                    datList3.push(tmplist[i]);
-                    break;
-                case 4:
-                    datList4.push(tmplist[i]);
-                    break;
-                case 5:
-                    datList5.push(tmplist[i]);
-                    break;
-                case 6:
-                    datList6.push(tmplist[i]);
-                    break;
-                }
+      console.log(tmplist);
+      for (i = 0; i < tmplist.length; i++) {
+        switch (i % 7) {
+          case 0:
+            datList.push(tmplist[i]);
+            break;
+          case 1:
+            datList1.push(tmplist[i]);
+            break;
+          case 2:
+            datList2.push(tmplist[i]);
+            break;
+          case 3:
+            datList3.push(tmplist[i]);
+            break;
+          case 4:
+            datList4.push(tmplist[i]);
+            break;
+          case 5:
+            datList5.push(tmplist[i]);
+            break;
+          case 6:
+            datList6.push(tmplist[i]);
+            break;
+        }
       }
-      for (i=0; i<7;i++){
-          color =  materialDesignColors[i]
-          colList.push(color)
-
+      for (i = 0; i < 7; i++) {
+        color = materialDesignColors[i];
+        colList.push(color);
       }
       generateGraph(
         labList.reverse(),
@@ -185,7 +215,7 @@
         datList4.reverse(),
         datList5.reverse(),
         datList6.reverse(),
-        colList
+        colList,
       );
     </script>
   </body>

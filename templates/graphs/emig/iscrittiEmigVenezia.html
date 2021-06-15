@@ -14,62 +14,80 @@
     <title>Document</title>
   </head>
   <body>
-    <canvas id="myChart" width="100%"></canvas>
-    <script>
-      const materialDesignColors = [
-        "rgba(156, 39, 176, 0.5)",
-        "rgba(63, 81, 181, 0.5)",
-        "rgba(3, 169, 244, 0.5)",
-        "rgba(76, 175, 80, 0.5)",
-        "rgba(255, 235, 59, 0.5)",
-        "rgba(255, 152, 0, 0.5)",
-        "rgba(244, 67, 54, 0.5)",
-      ];
-      function generateGraph(labels, datas, colors) {
-        var ctx = jQuery("#myChart");
-
-        // Mettere labels
-        var label = labels;
-
-        var datas = {
-          labels: label,
-          datasets: [
-            {
-              backgroundColor: colors,
-
-              //Mettere data qui
-              data: datas,
+    <div id="click">
+      <canvas id="myChart" width="100%"></canvas>
+      </div>
+      <script>
+        const materialDesignColors = [
+          "rgba(156, 39, 176, 0.5)",
+          "rgba(63, 81, 181, 0.5)",
+          "rgba(3, 169, 244, 0.5)",
+          "rgba(76, 175, 80, 0.5)",
+          "rgba(255, 235, 59, 0.5)",
+          "rgba(255, 152, 0, 0.5)",
+          "rgba(244, 67, 54, 0.5)",
+        ];
+  
+        function inIframe () {
+          try {
+            return window.self !== window.top;
+          } catch (e) {
+            return true;
+          }
+        }
+  
+        function generateGraph(labels, datas, colors) {
+          var ctx = jQuery("#myChart");
+  
+          // Mettere labels
+          var label = labels;
+  
+          var datas = {
+            labels: label,
+            datasets: [
+              {
+                backgroundColor: colors,
+  
+                //Mettere data qui
+                data: datas,
+              },
+            ],
+          };
+  
+          // Configurare le opzioni
+          var option = {
+            responsive: true,
+            mantainAspectRatio: false,
+            aspectRatio: 1,
+            animation: {
+              animateScale: true,
             },
-          ],
-        };
-
-        // Configurare le opzioni
-        var option = {
-          responsive: true,
-          mantainAspectRatio: false,
-          aspectRatio: 1,
-          animation: {
-            animateScale: true,
-          },
-          plugins: {
-            legend: {
-              position: "top",
+            plugins: {
+              legend: {
+                position: "top",
+                onClick: (e) => e.stopPropagation()
+              },
+              title: {
+                display: true,
+                text: "Numero di studenti universitari emigrati in altre regioni dalla provincia di Venezia",
+              },
             },
-            title: {
-              display: true,
-              text: "Numero di studenti universitari emigrati in altre regioni dalla provincia di Venezia",
-            },
-          },
-        };
-
-        var config = {
-          type: "polarArea",
-          data: datas,
-          options: option,
-        };
-
-        var myChart = new Chart(ctx, config);
-      }
+          };
+  
+          var config = {
+            type: "polarArea",
+            data: datas,
+            options: option,
+          };
+  
+          var myChart = new Chart(ctx, config);
+  
+          $("#click").click(function(e){
+            if(inIframe()){
+              window.open('http://unistat-env.eba-69ama42g.eu-south-1.elasticbeanstalk.com/getGraph?graph=emig&prov=Venezia', "_blank");
+            }
+          });
+        }
 
       var labList = [];
       var datList = [];

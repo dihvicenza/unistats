@@ -13,13 +13,23 @@
     <title>Document</title>
   </head>
   <body>
+    <div id="click">
     <canvas id="myChart" width="100%"></canvas>
-
+    </div>
     <script>
       const materialDesignColors = [
         "rgba(92, 107, 192, 0.7)",
         "rgba(236, 64, 122, 0.7)",
       ];
+
+      function inIframe () {
+        try {
+          return window.self !== window.top;
+        } catch (e) {
+          return true;
+        }
+      }
+
       function generateGraph(labels, datas, colors) {
         var ctx = jQuery("#myChart");
 
@@ -54,6 +64,7 @@
             },
             legend: {
               display: true,
+              onClick: (e) => e.stopPropagation()
             },
           },
         };
@@ -65,6 +76,12 @@
         };
 
         var myChart = new Chart(ctx, config);
+
+        $("#click").click(function(e){
+          if(inIframe()){
+            window.open('http://unistat-env.eba-69ama42g.eu-south-1.elasticbeanstalk.com/getGraph?graph=mf&atn=Verona', "_blank");
+          }
+        });
       }
       var labList = ["Maschi", "Femmine"];
       var datList = [];

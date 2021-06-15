@@ -14,7 +14,9 @@
     <title>Document</title>
   </head>
   <body>
+    <div id="click">
     <canvas id="myChart" width="100%"></canvas>
+    </div>
     <script>
       const materialDesignColors = [
         "rgba(156, 39, 176, 0.5)",
@@ -25,6 +27,15 @@
         "rgba(255, 152, 0, 0.5)",
         "rgba(244, 67, 54, 0.5)",
       ];
+
+      function inIframe () {
+        try {
+          return window.self !== window.top;
+        } catch (e) {
+          return true;
+        }
+      }
+
       function generateGraph(
         labels,
         datas,
@@ -34,7 +45,7 @@
         datas4,
         datas5,
         datas6,
-        colors
+        colors,
       ) {
         var ctx = jQuery("#myChart");
 
@@ -110,6 +121,16 @@
               loop: true,
             },
           },
+          plugins: {
+            legend: {
+              position: "top",
+              onClick: (e) => e.stopPropagation()
+            },
+            title: {
+              display: true,
+              text: "Percentuale (%) di Disoccupati nella fascia 15-24 per ogni provincia in Veneto, per anno e sesso",
+            },
+          },
         };
 
         var config = {
@@ -119,6 +140,12 @@
         };
 
         var myChart = new Chart(ctx, config);
+
+        $("#click").click(function(e){
+          if(inIframe()){
+            window.open('http://unistat-env.eba-69ama42g.eu-south-1.elasticbeanstalk.com/getGraph?graph=disoccupati', "_blank");
+          }
+        });
       }
 
       var labList = [];
@@ -156,7 +183,6 @@
           labList.push("2019 " + "Femmine");
           labList.push("2020 " + "Maschi");
           labList.push("2020 " + "Femmine");
-          labList.push("");
           contatore = 0;
           arrayNow = 0;
           for (i = 0; i < tmplist.length; i++) {
@@ -197,6 +223,7 @@
           }
         },
       });
+
       generateGraph(
         labList,
         datList,
@@ -206,7 +233,7 @@
         datList4,
         datList5,
         datList6,
-        colList
+        colList,
       );
     </script>
   </body>
