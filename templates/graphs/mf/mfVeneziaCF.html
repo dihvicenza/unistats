@@ -15,13 +15,13 @@
   <body>
     <div id="click">
       <canvas id="myChart" width="100%"></canvas>
-      </div>
-      <script>
+    </div>
+    <script>
         const materialDesignColors = [
           "rgba(92, 107, 192, 0.7)",
           "rgba(236, 64, 122, 0.7)",
         ];
-  
+
         function inIframe () {
           try {
             return window.self !== window.top;
@@ -29,13 +29,13 @@
             return true;
           }
         }
-  
-        function generateGraph(labels, datas, colors) {
+
+        function generateGraph(year, labels, datas, colors) {
           var ctx = jQuery("#myChart");
-  
+
           // Mettere labels
           var labels = labels;
-  
+
           var datas = {
             labels: labels,
             datasets: [
@@ -47,7 +47,7 @@
               },
             ],
           };
-  
+
           // Configurare le opzioni
           var option = {
             responsive: true,
@@ -60,7 +60,7 @@
             plugins: {
               title: {
                 display: true,
-                text: "Iscritti all'Università Ca' Foscari di Venezia, divisi per sesso",
+                text: "Iscritti all'Università Ca' Foscari di Venezia, divisi per sesso, " + year,
               },
               legend: {
                 display: true,
@@ -68,18 +68,18 @@
               },
             },
           };
-  
+
           var config = {
             type: "doughnut",
             data: datas,
             options: option,
           };
-  
+
           var myChart = new Chart(ctx, config);
-  
+
           $("#click").click(function(e){
             if(inIframe()){
-              window.open('http://unistat-env.eba-69ama42g.eu-south-1.elasticbeanstalk.com/getGraph?graph=mf&atn=VeronaCF', "_blank");
+              window.open(window.location.href, "_blank");
             }
           });
       }
@@ -92,8 +92,9 @@
         data: JSON.parse('{"data":"iscrittiAteneo"}'), //qui ci va il dato rillevante per quel grafico
         dataType: "json",
         success: function (data) {
-          values = data["Venezia CF"][0];
+          values = data["Venezia CF"][{{year}}];
           values = values.split(";");
+          year = values[0]
           datList.push(parseInt(values[1]));
           datList.push(parseInt(values[2]));
 
@@ -105,7 +106,7 @@
           labList[1] = labList[1] + " " + perFem.toString() + "%";
         },
       });
-      generateGraph(labList, datList, materialDesignColors);
+      generateGraph(year, labList, datList, materialDesignColors);
     </script>
   </body>
 </html>

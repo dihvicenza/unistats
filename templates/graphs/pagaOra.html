@@ -15,7 +15,7 @@
   </head>
   <body>
     <div id="click">
-    <canvas id="myChart" width="100%"></canvas>
+      <canvas id="myChart" width="100%"></canvas>
     </div>
     <script>
       const materialDesignColors = [
@@ -28,7 +28,7 @@
         "rgba(244, 67, 54, 0.5)",
       ];
 
-      function inIframe () {
+      function inIframe() {
         try {
           return window.self !== window.top;
         } catch (e) {
@@ -68,7 +68,8 @@
             plugins: {
               title: {
                 display: true,
-                text: "Paghe medie orarie divise per livello di istruzione, per provincia in Veneto",
+                text:
+                  "Paghe medie orarie divise per livello di istruzione, per provincia in Veneto",
               },
               legend: {
                 display: false,
@@ -77,13 +78,11 @@
           },
         });
 
-        
-        $("#click").click(function(e){
-          if(inIframe()){
-            window.open('http://unistat-env.eba-69ama42g.eu-south-1.elasticbeanstalk.com/getGraph?graph=pagaOra', "_blank");
+        $("#click").click(function (e) {
+          if (inIframe()) {
+            window.open(window.location.href, "_blank");
           }
         });
-
       }
       var labList = [];
       var datList = [];

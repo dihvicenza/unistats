@@ -84,7 +84,7 @@
   
           $("#click").click(function(e){
             if(inIframe()){
-              window.open('http://unistat-env.eba-69ama42g.eu-south-1.elasticbeanstalk.com/getGraph?graph=emig&prov=Vicenza', "_blank");
+              window.open(window.location.href, "_blank");
             }
           });
         }

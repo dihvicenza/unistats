@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script
@@ -16,18 +15,13 @@
   <body>
     <div id="click">
       <canvas id="myChart" width="100%"></canvas>
-      </div>
-      <script>
+    </div>
+    <script>
         const materialDesignColors = [
-          "rgba(156, 39, 176, 0.5)",
-          "rgba(63, 81, 181, 0.5)",
-          "rgba(3, 169, 244, 0.5)",
-          "rgba(76, 175, 80, 0.5)",
-          "rgba(255, 235, 59, 0.5)",
-          "rgba(255, 152, 0, 0.5)",
-          "rgba(244, 67, 54, 0.5)",
+          "rgba(92, 107, 192, 0.7)",
+          "rgba(236, 64, 122, 0.7)",
         ];
-  
+
         function inIframe () {
           try {
             return window.self !== window.top;
@@ -35,94 +29,85 @@
             return true;
           }
         }
-  
-        function generateGraph(labels, datas, colors) {
+
+        function generateGraph(year, labels, datas, colors) {
           var ctx = jQuery("#myChart");
-  
+
           // Mettere labels
-          var label = labels;
-  
+          var labels = labels;
+
           var datas = {
-            labels: label,
+            labels: labels,
             datasets: [
               {
                 backgroundColor: colors,
-  
+                borderColor: "rgba(100, 100, 100, 1)",
                 //Mettere data qui
                 data: datas,
               },
             ],
           };
-  
+
           // Configurare le opzioni
           var option = {
             responsive: true,
             mantainAspectRatio: false,
             aspectRatio: 1,
+            cutoutPercentage: 1000,
             animation: {
               animateScale: true,
             },
             plugins: {
-              legend: {
-                position: "top",
-                onClick: (e) => e.stopPropagation()
-              },
               title: {
                 display: true,
-                text: "Numero di studenti universitari emigrati in altre regioni dalla provincia di Padova",
+                text: "Iscritti al Istituto Universitario di Architettura di Venezia, divisi per Sesso, " + year,
+              },
+              legend: {
+                display: true,
+                onClick: (e) => e.stopPropagation()
               },
             },
           };
-  
+
           var config = {
-            type: "polarArea",
+            type: "doughnut",
             data: datas,
             options: option,
           };
-  
+
           var myChart = new Chart(ctx, config);
-  
+
           $("#click").click(function(e){
             if(inIframe()){
               window.open(window.location.href, "_blank");
             }
           });
         }
-
-      var labList = [];
+      var labList = ["Maschi", "Femmine"];
       var datList = [];
-      var colList = [];
       jQuery.ajax({
         async: false,
         type: "POST",
         url: "",
-        data: JSON.parse('{"data":"iscrittiEmig"}'), //qui ci va il dato rillevante per quel grafico
+        data: JSON.parse('{"data":"iscrittiAteneo"}'), //qui ci va il dato rillevante per quel grafico
         dataType: "json",
         success: function (data) {
-          index = 0;
-          var color = materialDesignColors[index];
-          values = data["verona"];
-          for (i = 0; i < values.length; i++) {
-            var color = materialDesignColors[index];
-            var valueSplit = values[i].toString().split(";");
-            label = valueSplit[1];
-            if (
-              valueSplit[0] == "2012/2013" &&
-              label != "Veneto" &&
-              valueSplit[2] > 100
-            ) {
-              datList.push(valueSplit[2]);
-              labList.push(label);
-              colList.push(color);
-              index--;
-              if (index < 0) {
-                index = materialDesignColors.length - 1;
-              }
-            }
-          }
+          //Non è un errore, ma il linter non riconosce il passaggio di variabili tramite Flask
+          values = data["Venezia IUAV"][{{year}}];
+          values = values.split(";");
+          year = values[0];
+          datList.push(parseInt(values[1]));
+          datList.push(parseInt(values[2]));
+
+          studTot = datList[0] + datList[1];
+          perMasc = Math.round((datList[0] * 100) / studTot);
+          perFem = Math.round((datList[1] * 100) / studTot);
+
+          labList[0] = labList[0] + " " + perMasc.toString() + "%";
+          labList[1] = labList[1] + " " + perFem.toString() + "%";
         },
       });
-      generateGraph(labList, datList, colList);
+      generateGraph(year, labList, datList, materialDesignColors);
     </script>
   </body>
 </html>

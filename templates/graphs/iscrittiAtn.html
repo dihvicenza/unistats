@@ -36,7 +36,7 @@
         }
       }
 
-      function generateGraph(labels, datas, datas1, datas2, datas3, colors) {
+      function generateGraph(sex, labels, datas, datas1, datas2, datas3, colors) {
         var ctx = jQuery("#myChart");
         var ctx = document.getElementById("myChart").getContext("2d");
 
@@ -56,7 +56,7 @@
             },
 
             {
-              label: "Venezia BA",
+              label: "Venezia IUAV",
               fill: true,
               backgroundColor: colors[1],
 
@@ -94,7 +94,7 @@
             },
             title: {
               display: true,
-              text: "Iscritti ad ogni Ateneo in Veneto, per Anno",
+              text: "Iscritti ad ogni Ateneo in Veneto, per Anno, " + sex,
             },
           },
         };
@@ -110,7 +110,7 @@
         $("#click").click(function (e) {
           if (inIframe()) {
             window.open(
-              "http://unistat-env.eba-69ama42g.eu-south-1.elasticbeanstalk.com/getGraph?graph=iscrittiAtn",
+              window.location.href,
               "_blank",
             );
           }
@@ -131,6 +131,7 @@
         data: JSON.parse('{"data":"iscrittiAteneo"}'), //qui ci va il dato rillevante per quel grafico
         dataType: "json",
         success: function (data) {
+          console.log(data)
           index = 0;
           tmplist = [];
           for (i = 0; i < 11; i++) {
@@ -138,7 +139,16 @@
             for (const [key, value] of Object.entries(data)) {
               values = data[key];
               var valueSplit = values[i].toString().split(";");
-              tmplist.push(parseInt(valueSplit[1]) + parseInt(valueSplit[2]));
+              if({{sex}} == 0){
+                tmplist.push(parseInt(valueSplit[1]) + parseInt(valueSplit[2]));
+                sex = "Entrambi i sessi"
+              } else if ({{sex}} == 1){
+                tmplist.push(parseInt(valueSplit[1]));
+                sex = "Maschi"
+              } else {
+                tmplist.push(parseInt(valueSplit[2]));
+                sex = "Femmine"
+              }
             }
             colList.push(color);
             index++;
@@ -154,10 +164,10 @@
             datList.push(tmplist[i]);
             break;
           case 1:
-            datList1.push(tmplist[i]);
+            datList2.push(tmplist[i]);
             break;
           case 2:
-            datList2.push(tmplist[i]);
+            datList1.push(tmplist[i]);
             break;
           case 3:
             datList3.push(tmplist[i]);
@@ -166,6 +176,7 @@
       }
 
       generateGraph(
+        sex,
         labList.reverse(),
         datList.reverse(),
         datList1.reverse(),

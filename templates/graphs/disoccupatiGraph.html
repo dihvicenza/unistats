@@ -15,7 +15,7 @@
   </head>
   <body>
     <div id="click">
-    <canvas id="myChart" width="100%"></canvas>
+      <canvas id="myChart" width="100%"></canvas>
     </div>
     <script>
       const materialDesignColors = [
@@ -28,7 +28,7 @@
         "rgba(244, 67, 54, 0.5)",
       ];
 
-      function inIframe () {
+      function inIframe() {
         try {
           return window.self !== window.top;
         } catch (e) {
@@ -106,7 +106,6 @@
           maintainAspectRatio: true,
           scales: {
             y: {
-              type: "logarithmic",
               ticks: {
                 beginAtZero: true,
               },
@@ -124,11 +123,12 @@
           plugins: {
             legend: {
               position: "top",
-              onClick: (e) => e.stopPropagation()
+              onClick: (e) => e.stopPropagation(),
             },
             title: {
               display: true,
-              text: "Percentuale (%) di Disoccupati nella fascia 15-24 per ogni provincia in Veneto, per anno e sesso",
+              text:
+                "Percentuale (%) di Disoccupati nella fascia 15-24 per ogni provincia in Veneto, per anno e sesso",
             },
           },
         };
@@ -141,9 +141,9 @@
 
         var myChart = new Chart(ctx, config);
 
-        $("#click").click(function(e){
-          if(inIframe()){
-            window.open('http://unistat-env.eba-69ama42g.eu-south-1.elasticbeanstalk.com/getGraph?graph=disoccupati', "_blank");
+        $("#click").click(function (e) {
+          if (inIframe()) {
+            window.open(window.location.href, "_blank");
           }
         });
       }

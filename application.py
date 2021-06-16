@@ -1,6 +1,7 @@
-from flask import Flask, render_template, jsonify, request, make_response
-import requests
+from flask import Flask, render_template, jsonify, request, make_response #BSD License
+import requests #Apache 2.0
 
+#StdLibs
 import json
 from os import path
 
@@ -37,7 +38,10 @@ def getgraph():
 
             # Line Graph per gli iscritti alle università nel veneto per anno
             elif(request.args['graph'] == "iscrittiAtn"):
-                return make_response(render_template("graphs/iscrittiAtn.html"))
+                if('sex' in request.args):
+                    return make_response(render_template("graphs/iscrittiAtn.html", sex=int(request.args['sex'])))
+                else:
+                    return make_response(render_template("graphs/iscrittiAtn.html", sex=0))
 
             elif(request.args['graph'] == "disoccupati"):
                 return make_response(render_template("graphs/disoccupatiGraph.html"))
@@ -50,7 +54,10 @@ def getgraph():
                 dir = "graphs/mf/mf" + request.args['atn'] + ".html"
                 print(dir)
                 if(path.exists("templates/" + dir)):
-                    return make_response(render_template(dir))
+                    if('year' in request.args):
+                        return make_response(render_template(dir, year=int(request.args['year'])))
+                    else:
+                        return make_response(render_template(dir, year=0))
 
             # Polar Area Graph per gli studenti emigrati in altre regioni
             elif(request.args['graph'] == "emig" and "prov" in request.args):
@@ -62,8 +69,6 @@ def getgraph():
     return "<h1>400 BAD REQUEST"
 
 # Aggiornamento dati alla mezzanotte di ogni lunedi
-
-
 @application.route("/doUpdate")
 def updateData():
     # File iscritti per ateneo
@@ -79,7 +84,7 @@ def updateData():
         iscrittiAteneo = {
             'Venezia CF': [],
             'Verona': [],
-            'Venezia BA': [],
+            'Venezia IUAV': [],
             'Padova': []}
 
         for row in data:
@@ -89,7 +94,7 @@ def updateData():
                 if 'Venezia C' in row[1]:
                     tmp = 'Venezia CF'
                 if tmp == 'Venezia Iuav':
-                    tmp = 'Venezia BA'
+                    tmp = 'Venezia IUAV'
                 iscrittiAteneo[tmp].append(
                     row[0] + ';' + row[3] + ';' + row[4])
 

@@ -14,7 +14,7 @@
   </head>
   <body>
     <div id="click">
-    <canvas id="myChart" width="100%"></canvas>
+      <canvas id="myChart" width="100%"></canvas>
     </div>
     <script>
       const materialDesignColors = [
@@ -30,7 +30,7 @@
         }
       }
 
-      function generateGraph(labels, datas, colors) {
+      function generateGraph(year, labels, datas, colors) {
         var ctx = jQuery("#myChart");
 
         // Mettere labels
@@ -60,7 +60,7 @@
           plugins: {
             title: {
               display: true,
-              text: "Iscritti all'Università di Verona, divisi per sesso",
+              text: "Iscritti all'Università di Verona, divisi per sesso, " + year,
             },
             legend: {
               display: true,
@@ -79,7 +79,7 @@
 
         $("#click").click(function(e){
           if(inIframe()){
-            window.open('http://unistat-env.eba-69ama42g.eu-south-1.elasticbeanstalk.com/getGraph?graph=mf&atn=Verona', "_blank");
+            window.open(window.location.href, "_blank");
           }
         });
       }
@@ -92,8 +92,9 @@
         data: JSON.parse('{"data":"iscrittiAteneo"}'), //qui ci va il dato rillevante per quel grafico
         dataType: "json",
         success: function (data) {
-          values = data["Verona"][0];
+          values = data["Verona"][{{year}}];
           values = values.split(";");
+          year = values[0]
           datList.push(parseInt(values[1]));
           datList.push(parseInt(values[2]));
 
@@ -105,7 +106,7 @@
           labList[1] = labList[1] + " " + perFem.toString() + "%";
         },
       });
-      generateGraph(labList, datList, materialDesignColors);
+      generateGraph(year, labList, datList, materialDesignColors);
     </script>
   </body>
 </html>
