@@ -62,17 +62,31 @@ Per aggiornare i dataset, far riferimento alle istruzioni sotto riportate (estra
 
 
 *I dati riguardanti gli iscritti agli atenei italiani dal 2010 al 2020 sono forniti dal Ministero dell'Istruzione, dell'Università e della Ricerca (MIUR) sotto licenza IODL v2
+  
   *Link ai dati: http://dati.ustat.miur.it/dataset/iscritti/resource/32d26e28-a0b5-45f3-9152-6072164f3e63
+  
   *Link alla licenza: https://www.dati.gov.it/content/italian-open-data-license-v20
+
 *I dati riguardanti gli iscritti per provincia, rielaborati per determinare gli iscritti fuori sede, sono forniti dal Ministero dell'Istruzione, dell'Università e della Ricerca  (MIUR) sotto licenza IODL V2
+
   *Link ai dati: http://dati.ustat.miur.it/dataset/iscritti/resource/eae4ee94-0797-41d2-b007-bc6dad3ef3e2
+  
   *Link alla licenza: https://www.dati.gov.it/content/italian-open-data-license-v20
+ 
 *I dati riguardanti la retribuzione oraria media per provincia e livello di istruzione sono forniti dal Istituto Nazionale di Statistica (ISTAT) sotto licenza Creative Commons 3.0 - BY
+
   *Link al portale dati (dato: Retribuzione e tipo di diploma): http://dati.istat.it/
+   
   *Link alla licenza: https://creativecommons.org/licenses/by/3.0/it/legalcode
+
 *I dati riguardanti il tasso di disoccupazione provinciale sono forniti dal Istituto Nazionale di Statistica (ISTAT) sotto licenza Creative Commons 3.0 - BY
+
   *Link al portale dati (dato: Tasso di Disoccupazione - Dati Provinciali):http://dati.istat.it/
+  
   *Link alla licenza: https://creativecommons.org/licenses/by/3.0/it/legalcode
+
 *La Webapp è basata sul framework per webapp Flask, distribuito sotto licenza BSD-3-Clause License
+
   *Link al sito del progetto: https://palletsprojects.com/p/flask/
+  
   *Link alla licenza: https://opensource.org/licenses/BSD-3-Clause
