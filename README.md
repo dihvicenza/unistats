@@ -17,7 +17,7 @@ Per installare la webapp è necessario un server con Python 3.8 installato. Le l
 
   
 
-Il webserver deve supportare i cronjob per permettere l'aggiornamento automatico di parte dei dataset. Il file cron.yaml contiene il cronjob che bisogna configurare
+Il webserver deve supportare i cronjob per permettere l'aggiornamento automatico di parte dei dataset. Per iniziare l'aggiornamento dei dati (ci impiega pochi secondi) è sufficiente eseguire una chiamata get all'indirizzo /doUpdate del server. Il periodo di tempo tra un aggiornamento e l'altro è a discrezione del webmaster (consigliato ogni Lunedi a mezzanotte)
 
   
 
