@@ -100,7 +100,7 @@
         async: false,
         type: "POST",
         url: "",
-        data: JSON.parse('{"data":"iscrittiEmig"}'), //qui ci va il dato rillevante per quel grafico
+        data: JSON.parse('{"data":"iscrittiEmig"}'), 
         dataType: "json",
         success: function (data) {
           index = materialDesignColors.length - 1;
@@ -111,7 +111,6 @@
             label = valueSplit[1];
             if (
               valueSplit[0] == "2012/2013" &&
-              label != "Veneto" &&
               valueSplit[2] > 100
             ) {
               datList.push(valueSplit[2]);

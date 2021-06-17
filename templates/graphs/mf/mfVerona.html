@@ -89,7 +89,7 @@
         async: false,
         type: "POST",
         url: "",
-        data: JSON.parse('{"data":"iscrittiAteneo"}'), //qui ci va il dato rillevante per quel grafico
+        data: JSON.parse('{"data":"iscrittiAteneo"}'), 
         dataType: "json",
         success: function (data) {
           values = data["Verona"][{{year}}];

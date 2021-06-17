@@ -105,12 +105,12 @@
           <a
             class="list-group-item list-group-item-action list-group-item-light p-3"
             onclick="changePage('3rd')"
-            >Studenti Universitari e Paghe Orarie</a
+            >Fattori che influenzano l'iscrizione</a
           >
           <a
             class="list-group-item list-group-item-action list-group-item-light p-3"
             onclick="changePage('4th')"
-            >Studenti fuori sede</a
+            >Studenti che studiano fuori dal Veneto</a
           >
           <a
             class="list-group-item list-group-item-action list-group-item-light p-3"
@@ -160,7 +160,7 @@
                   >
                   <script>
                     document.getElementById("atn").src =
-                      window.location.href + "getGraph?graph=iscrittiAtn";
+                      window.location.href + "getGraph?graph=iscrittiAtn"; //windows.location.href va a prendere l'url della pagina, permettendo di aggiornare automaticamente i link ai grafici
                   </script>
                 </div>
               </td>
@@ -169,24 +169,20 @@
                   Ogni anno, in Veneto, 112 mila studenti circa si iscrivono ad
                   una delle quattro maggiori università della regione:
                   l'Università di Padova, di Verona, l'Università Ca Foscari di
-                  Venezia e l'Università delle Belle Arti di Venezia.
+                  Venezia e l'Università IUAV di Venezia. La distribuzione degli studenti è
+                  visibile nel grafico qui a sinistra.
+                  Il numero degli iscritti però non è sufficiente per capire le dinamiche
+                  che lo portano ad essere cosi alto: i fattori che influenzano questa decisione
+                  sono vari e difficili da comprendere guardando dei semplici dati numerici.
                 </p>
                 <p>
-                  Questo fenomeno, però, non influenza tutti i giovani
-                  equalmente. Ci sono vari fattori che influenzano se e dove un
-                  aspirante laureando si iscriverà ad un'Università.
+                  UniStats è una webapp interattiva che ha lo scopo di aiutare a comprendere quali 
+                  fattori influenzano la decisione dei giovani di iscriversi all'univeristà, permettendo
+                  di visualizzare i dati inerenti in dei grafici facili da capire. Tutti i dati utilizzati 
+                  sono liberamente consultabili online, seppur in forma meno comprensibile.
                 </p>
                 <p>
-                  L'obbiettivo di questa Webapp è quello di usare dati
-                  <b>aggiornati</b> per analizzare al meglio il comportamento
-                  degli studenti in Veneto.
-                </p>
-                <p>
-                  Il grafico qui a sinistra rappresenta i dati di iscrizione
-                  agli atenei del Veneto per ogni anno fino dal 2010 (dati
-                  aggiornati ogni anno), dimostrando che il fenomeno è
-                  abbastanza costante ogni anno, anche se sembrerebbe essere in
-                  cresita.
+                  Per inziare, cliccare sul bottone blu in alto a sinistra e scegliere una delle 3 pagine disponibili.
                 </p>
               </td>
             </tr>
@@ -315,11 +311,23 @@
                 <p style="margin-top: 5%;">
                   Una delle motivazioni maggiori che potrebbero influenzare
                   questo dato, però, è un dato tanto triste quanto reale: la
-                  disoccupazione tra gli adolescenti (15-24 anni). In generale, per tutte le provincie, tra i giovani chi ha più
-                  difficoltà a trovare lavoro sono le ragazze, con percentuali che vanno da un minimo del 13% a Vicenza nel 2019 a un
-                  massimo del 45% a Padova nel 2020. Nonostante i dati non distinguano il titolo di studio di questi giovani, è
-                  abbastanza intuitivo che le ragazze siano più spinte a intraprendere un percorso di studio universitario, nella
-                  speranza di aumentare le proprie possibilità di trovare un lavoro.
+                  disoccupazione tra gli adolescenti (15-24 anni). In generale,
+                  per tutte le provincie, tra i giovani chi ha più difficoltà a
+                  trovare lavoro sono le ragazze, con percentuali che vanno da
+                  un minimo del 13% a Vicenza nel 2019 a un massimo del 45% a
+                  Padova nel 2020. Nonostante i dati non distinguano il titolo
+                  di studio di questi giovani, è abbastanza intuitivo che le
+                  ragazze siano più spinte a intraprendere un percorso di studio
+                  universitario, nella speranza di aumentare le proprie
+                  possibilità di trovare un lavoro.
+                </p>
+                <p>
+                  C'è da notare però che i dati delle iscrizioni agli atenei non
+                  fanno distinzione tra le provincie di provenienza degli
+                  iscritti e che quindi, di conseguenza, comprendono anche
+                  iscritti fuori sede. Nonostante ciò, la correlazione è valdia,
+                  in quanto l'andamento in tutta Italia è simile: il tasso di
+                  disoccupazione femminile è maggiore di quello maschile.
                 </p>
               </td>
               <td>
@@ -344,7 +352,7 @@
         <!-- Terza Pagina-->
         <div class="container-fluid" style="display: none;" id="3rd">
           <h1 class="mt-4">
-            UniStats: Analisi degli Open Data riguardanti il mondo universitario
+            Fattori che spingono i giovani ad iscriversi all'università: quali sono?
           </h1>
           <table style="width: 100%;">
             <tr>
@@ -364,49 +372,115 @@
                 </div>
               </td>
               <td valign="top">
-
+                <p style="margin-top: 5%;">
+                  Il grafico presentato a sinistra rappresentano i dati
+                  riguardanti le iscrizioni a qualunque università d'Italia per
+                  le varie provincie del Veneto. Come possiamo vedere, Padova
+                  rimane una delle città dove più giovani decidono di
+                  intraprendere un percorso di studio universitario, seguita da
+                  Verona e poi, a parimerito, Vicenza e Treviso. I dati
+                  sembrano, però, avere un andamento pressochè costante, con un
+                  leggero abbassamento nel periodo tra 2015 e 2017. Questo
+                  andamento ha delle conseguenze se comparato agli altri dati
+                  disponibili.
+                </p>
               </td>
             </tr>
           </table>
-        </table>
-        <table style="width: 100%; margin-top: 4%;">
-          <tr>
-            <td valign="top" style="width: 50%;">
-              <p style="margin-top: 5%;">
-                Una delle motivazioni maggiori che potrebbero influenzare
-                questo dato, però, è un dato tanto triste quanto reale: la
-                disoccupazione tra gli adolescenti (15-24 anni). In generale, per tutte le provincie, tra i giovani chi ha più
-                difficoltà a trovare lavoro sono le ragazze, con percentuali che vanno da un minimo del 13% a Vicenza nel 2019 a un
-                massimo del 45% a Padova nel 2020. Nonostante i dati non distinguano il titolo di studio di questi giovani, è
-                abbastanza intuitivo che le ragazze siano più spinte a intraprendere un percorso di studio universitario, nella
-                speranza di aumentare le proprie possibilità di trovare un lavoro.
-              </p>
-            </td>
-            <td>
-              <div
-                id="link1"
-                class="iframe-container"
-                style="--aspect-ratio: 2.03/1.1;"
-              >
-                <iframe id="disoccupati2"
-                  >Il tuo browser non supporta gli iframe</iframe
+          <table style="width: 100%; margin-top: 4%;">
+            <tr>
+              <td valign="top" style="width: 50%;">
+                <p style="margin-top: 5%;">
+                  In primo luogo, i valori di iscrizioni neelle province
+                  dimostrano una correlazione, seppur debole, tra il numero di
+                  iscritti il tasso di disoccupazione, almeno per le donne (che
+                  abbiamo visto precedenemente costituire la maggior parte della
+                  popolazione universitaria): le province di Padova, Verona e
+                  Vicenza hanno un tasso di disoccupazione alto (>24%) e sono le
+                  tre province con il maggior numero di iscritti alle
+                  università. Ciò che però indebolisce molto questa correlazione
+                  è la provincia di Rovigo: nonostante sia la provincia con il
+                  maggior tasso di disoccupazione nel 2020, sia maschile che
+                  femminile, è anche la penultima provincia in fatto di iscritti
+                  alle università. Di conseguenza, non si può tracciare una
+                  correlazione effettiva tra questi due dati.
+                </p>
+              </td>
+
+              <td>
+                <div
+                  id="link1"
+                  class="iframe-container"
+                  style="--aspect-ratio: 2.03/1.1;"
                 >
-                <script>
-                  document.getElementById("disoccupati2").src =
-                    window.location.href + "getGraph?graph=disoccupati";
-                </script>
-              </div>
-            </td>
-          </tr>
-        </table>
+                  <iframe id="disoccupati2"
+                    >Il tuo browser non supporta gli iframe</iframe
+                  >
+                  <script>
+                    document.getElementById("disoccupati2").src =
+                      window.location.href + "getGraph?graph=disoccupati";
+                  </script>
+                </div>
+              </td>
+            </tr>
+          </table>
+          <table style="width: 100%;">
+            <tr>
+              <td style="width: 39%;" valign="top">
+                <div
+                  id="link1"
+                  class="iframe-container"
+                  style="--aspect-ratio: 1;"
+                >
+                  <iframe id="paga"
+                    >Il tuo browser non supporta gli iframe</iframe
+                  >
+                  <script>
+                    document.getElementById("paga").src =
+                      window.location.href + "getGraph?graph=pagaOra";
+                  </script>
+                </div>
+              </td>
+              <td valign="top">
+                <p style="margin-top: 5%;">
+                  Si può, invece, tracciare una buona correlazione tra gli
+                  iscritti e la paga oraria dei laureati: escludendo Padova, il
+                  cui numero di iscritti è inflazionato dalla presenza di
+                  un'università famosa e prestigiosa come l'Unviersità di
+                  Padova, il trend delle altre province è evidente. La seconda
+                  provincia per numero di iscritti è Verona, che è la prima in
+                  fatto di paga oraria per laureati, la terza è Vicenza, che è
+                  la seconda in fatto di paga oraria e via discorrendo. Questa
+                  volta, anche Rovigo segue il trend, essendo la provincia con
+                  il minor numero di iscritti e con le paghe orarie minori.
+                  Fuori dal trend invece è Venezia che, nonostante un numero di
+                  iscritti vicino a quello delle altre province, è una delle
+                  province con la paga oraria più bassa. Questo però lo si può
+                  giustificare con delle ragioni simili alla provincia di
+                  Padova, viste le università molto famose di Venezia.
+                </p>
+                <p>
+                  In conclusione, possiamo quindi affermare che i giovani non si
+                  iscrivono (o almeno, non nella maggior parte dei casi)
+                  all'università per riuscire a trovare un lavoro, bensì lo
+                  fanno perchè le paghe per i laureati sono significativamente
+                  maggiori nella buona parte delle province. Ovviamente, bisogna
+                  considerare che i dati non sono completamente specifici e che
+                  per determinare con certezza questa cosa sarebbe necessario un
+                  sondaggio, ma queste statistiche sono un buon punto d'inizio
+                  per tracciare un comportamento reale.
+                </p>
+              </td>
+            </tr>
+          </table>
         </div>
 
         <!-- Quarta Pagina-->
         <div class="container-fluid" style="display: none;" id="4th">
-          <h1 class="mt-4">Studenti fuori sede</h1>
+          <h1 class="mt-4">Studenti che studiano fuori dal Veneto: la maggior parte rimane nella regione</h1>
           <table>
             <tr>
-              <td style="width: 50%;">
+              <td style="width: 40%;">
                 <label for="regione"
                   >Scegliere la regione di provenienza degli studenti:</label
                 >
@@ -437,7 +511,28 @@
                   </script>
                 </div>
               </td>
-              <td></td>
+              <td valign="top">
+                <p style="margin-top: 5%;">
+                  <b>Nota bene: nei grafici di alcune provincie, il dato riguardante il Veneto non viene visualizzato in quanto
+                    renderebbe illeggibile il grafico. In questi casi, i dato è sempre superiore a 13 mila iscritti e inferiore a 26 mila.
+                    Inoltre, vengono troncate le regioni verso le quali si trasferiscono meno di 100-200 iscritti (a seconda degli altri valori
+                    nel grafico). Questi grafici non devono essere interpretati come una rappresentazione perfetta della realtà, bensi come 
+                    un'approsimazione ai fini di permettere una migliore visualizzaizone.
+                  </b>
+                </p>
+                <p>
+                    Come nota di chiusura, qui a sinsitra sono presentati i dati riguardanti le iscrizioni degli studenti veneti a università
+                    di altre province. Da questo punto di vista, non ci sono molte correlazioni ai dati precedenti da poter fare: i motivi 
+                    per cui si decide di studiare altrove in Italia non sono necessariamente legati ad indici economici e sociali. Spesso
+                    lo si fa per allontanarsi dalla città dove si è rimasti per una vita e per fare nuove esperienze. Nonostante ciò, la
+                    maggior parte degli studenti decide di rimanere in Veneto.
+                </p>
+                <p>
+                  Le regioni più gettonate per gli studenti fuori sede in Veneto sono Emilia Romagna, Trentino Alto Adige e Friuli Venezia Giulia.
+                  La Lombardia, nonostante sia adiacente al Veneto, è una delle regioni meno scelte dagli studenti, forse per il costo della vita 
+                  più alto che in molte altre regioni.
+                </p>
+              </td>
             </tr>
           </table>
         </div>
@@ -513,7 +608,7 @@
             </li>
             <ul>
               <li>
-                Link al portale dati (dato: Disoccupazione - Dati Provinciali):
+                Link al portale dati (dato: Tasso di Disoccupazione - Dati Provinciali):
                 <a href="http://dati.istat.it/">qui</a>
               </li>
               <li>
@@ -558,6 +653,7 @@
             document.getElementById(pages[i]).style.display = "block";
           }
         }
+        //Auto detoggle della barra di navigazione laterale quando sicambia pagina
         if (
           !document
             .getElementById("body")
@@ -568,13 +664,19 @@
       }
 
       //Funzione di override dell'avvertiemento per schermi verticali
+      //L'avvertimento non apparirà più fino al prossimo ricaricamento della pagina
       function override() {
         document.getElementById("alert").style.display = "none";
         document.getElementById("wrapper").style.display = "flex";
         console.log(document.getElementById("wrapper").style);
       }
 
-      //Funzioni di alterazione del grafico//
+
+
+
+      //Funzioni di alterazione del grafico// 
+      //In pratica aggiungono il campo opzionale alla richiesta
+
 
       //Switch per IscrittiAteneo tra: Solo Maschi, solo Femmine, Entrambi
       function changeIscrittiAteneoGraph() {
