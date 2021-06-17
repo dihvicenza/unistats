@@ -12,7 +12,8 @@ Unistats è una webapp programmata in Python, con frontend in HTML/CSS/JavaScrip
 Per installare la webapp è necessario un server con Python 3.8 installato. Le librerie necessarie per il funzionamento della webapp sono segnate nel file `requirements.txt` che può essere passato come parametro a pip. Infine, basta impostare che il file `application.py` venga avviato automaticamente all'avvio del server.
 
   
-Si consiglia di configurare un cronjob che ogni settimana mandi una richiesta GET alla pagina /doUpdate per eseguire l'update automatico di parte dei dataset
+
+Il webserver deve supportare i cronjob per permettere l'aggiornamento automatico di parte dei dataset. Il file cron.yaml contiene il cronjob che bisogna configurare
 
   
 
